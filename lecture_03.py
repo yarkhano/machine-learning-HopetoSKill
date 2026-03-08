@@ -8,3 +8,8 @@ targets = data.target
 
 print(attributes)
 print(targets)
+
+df = pd.DataFrame(data=data.data, columns=data.feature_mnames)
+print(df)
+
+df["target"] = data.target
