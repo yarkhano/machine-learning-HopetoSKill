@@ -1,15 +1,20 @@
 #Attributes in Data
+
 from sklearn.datasets import load_iris
 import pandas as pd
 
-data = load_iris()
-attributes = data.feature_names
-targets = data.target
+iris = load_iris()
+attributes = iris.feature_names
+targets = iris.target
 
 print(attributes)
 print(targets)
 
-df = pd.DataFrame(data=data.data, columns=data.feature_mnames)
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
 print(df)
 
-df["target"] = data.target
+df["target"] = iris.target
+
+print(df.head())
+
+print(df.dtypes)
