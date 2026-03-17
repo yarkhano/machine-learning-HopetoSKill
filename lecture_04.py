@@ -9,5 +9,7 @@ print(dataset.shape)
 print(dataset.head(10))
 print(dataset.describe()) #this give statistical sunmmary of numerica columns(mean,min max)
 
+#Starting on preprocessing
+print(dataset.isnull().sum())
 
-
+print(dataset.dtypes)
