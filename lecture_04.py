@@ -13,3 +13,12 @@ print(dataset.describe()) #this give statistical sunmmary of numerica columns(me
 print(dataset.isnull().sum())
 
 print(dataset.dtypes)
+
+#filling missing valuses
+dataset["age"] = dataset["age"].fillna(dataset["age"].mean())
+dataset["embarked"] = dataset["embarked"].fillna(dataset["embarked"].mode()[0])
+
+#dropping deck column because it has 77% of data missing
+dataset.drop(columns=["deck"],inplace=True)
+dataset.drop(columns=["embark_town"],inplace=True)
+print(dataset.isnull().sum())
