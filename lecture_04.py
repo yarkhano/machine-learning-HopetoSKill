@@ -6,3 +6,5 @@ import pandas as pd
 import seaborn as sns
 
 dataset = sns.load_dataset("titanic")
+
+dataset.shape()
