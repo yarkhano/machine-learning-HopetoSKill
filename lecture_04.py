@@ -3,6 +3,7 @@
 
 import pandas as pd
 import seaborn as sns
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 dataset = sns.load_dataset("titanic")
 print(dataset.shape)
@@ -22,3 +23,9 @@ dataset["embarked"] = dataset["embarked"].fillna(dataset["embarked"].mode()[0])
 dataset.drop(columns=["deck"],inplace=True)
 dataset.drop(columns=["embark_town"],inplace=True)
 print(dataset.isnull().sum())
+
+
+#label and one hot encoding
+label_encoder = LabelEncoder()
+dataset["sex"] = label_encoder.fit_transform(dataset["sex"])
+print(dataset.head(10))
