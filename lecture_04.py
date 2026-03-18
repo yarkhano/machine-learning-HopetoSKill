@@ -44,3 +44,10 @@ print(dataset.head(10))
 print(dataset.describe())
 
 #Starting outlier detection using iqr method to catch more outliers
+q1 = dataset["fare"].quantile(0.25)
+q3 = dataset["fare"].quantile(0.75)
+dq = q3-q1
+
+lower_boundary = q1-1.5*dq
+upper_boundary = q3+1.5*dq
+
