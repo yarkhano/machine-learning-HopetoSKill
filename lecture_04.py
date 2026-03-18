@@ -42,3 +42,5 @@ cols = ["age","fare","sibsp", "parch"]
 dataset[cols] = scaler.fit_transform(dataset[cols])
 print(dataset.head(10))
 print(dataset.describe())
+
+#Starting outlier detection using iqr method to catch more outliers
