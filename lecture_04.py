@@ -43,7 +43,7 @@ dataset[cols] = scaler.fit_transform(dataset[cols])
 print(dataset.head(10))
 print(dataset.describe())
 
-#Starting outlier detection using iqr method to catch more outliers
+#Starting outlier detection using iqr method to catch more outliers, while z score catch extreme outliers
 q1 = dataset["fare"].quantile(0.25)
 q3 = dataset["fare"].quantile(0.75)
 dq = q3-q1
@@ -51,3 +51,12 @@ dq = q3-q1
 lower_boundary = q1-1.5*dq
 upper_boundary = q3+1.5*dq
 
+print("Q1:", q1)
+print("Q3:", q3)
+print("IQR:", dq)
+print("Lower Boundary:", lower_boundary)
+print("Upper Boundary:", upper_boundary)
+
+
+outliers = dataset[(dataset["fare"]<lower_boundary) | (dataset["fare"]>upper_boundary)]
+print("Number of outliers:", len(outliers))
