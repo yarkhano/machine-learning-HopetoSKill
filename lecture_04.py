@@ -40,3 +40,5 @@ scaler = StandardScaler()
 
 cols = ["age","fare","sibsp", "parch"]
 dataset[cols] = scaler.fit_transform(dataset[cols])
+print(dataset.head(10))
+print(dataset.describe())
