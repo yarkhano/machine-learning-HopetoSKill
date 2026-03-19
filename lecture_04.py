@@ -51,8 +51,8 @@ dq = q3-q1
 lower_boundary = q1-1.5*dq
 upper_boundary = q3+1.5*dq
 
-print("Q1:", q1)
-print("Q3:", q3)
+print("q1:", q1)
+print("q3:", q3)
 print("IQR:", dq)
 print("Lower Boundary:", lower_boundary)
 print("Upper Boundary:", upper_boundary)
@@ -60,3 +60,9 @@ print("Upper Boundary:", upper_boundary)
 
 outliers = dataset[(dataset["fare"]<lower_boundary) | (dataset["fare"]>upper_boundary)]
 print("Number of outliers:", len(outliers))
+
+#we have two choices for outliers remove it if not real and have no effect or capping in which we replace outliers with bounderis,using clip()-> anything below lower boundary become value of  lower boundary and same for upper values
+#capping outliers
+dataset["fare"] = dataset["fare"].clip(lower=lower_boundary, upper=upper_boundary)
+outliers_after = dataset[(dataset["fare"]<lower_boundary) | (dataset["fare"]>upper_boundary)]
+print("Number of outliers after clipping:", len(outliers_after))
