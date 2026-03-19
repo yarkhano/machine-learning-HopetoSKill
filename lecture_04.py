@@ -6,6 +6,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
 
 dataset = sns.load_dataset("titanic")
 print(dataset.shape)
@@ -66,3 +67,18 @@ print("Number of outliers:", len(outliers))
 dataset["fare"] = dataset["fare"].clip(lower=lower_boundary, upper=upper_boundary)
 outliers_after = dataset[(dataset["fare"]<lower_boundary) | (dataset["fare"]>upper_boundary)]
 print("Number of outliers after clipping:", len(outliers_after))
+
+
+#Feature Selection
+correlation = dataset.corr(numeric_only=True)
+print(correlation)
+
+#removing adult_male column because it has 90% same to sex
+dataset.drop(columns=["adult_male"], inplace=True)
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation, annot=True, cmap="coolwarm", fmt=".2f")
+plt.title("Correlation Heatmap")
+plt.show()
+print(dataset.shape)
+
