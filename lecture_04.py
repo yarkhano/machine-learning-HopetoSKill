@@ -6,6 +6,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
 dataset = sns.load_dataset("titanic")
@@ -82,3 +83,8 @@ plt.title("Correlation Heatmap")
 plt.show()
 print(dataset.shape)
 
+#Dividing data into training testing and validation
+X = dataset.drop(columns=["survived"])
+y = dataset["survived"]
+
+x_train,x_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=42)
