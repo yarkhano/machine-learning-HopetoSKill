@@ -1,77 +1,47 @@
-#Starting Preprocessing part 2
-#I will be using the clean dataset code of previous lecture her
-
-import pandas as pd
-from scipy import stats
 import pandas as pd
 import seaborn as sns
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 
+# 1. Load Data
 dataset = sns.load_dataset("titanic")
-print(dataset.shape)
-print(dataset.head(10))
-print(dataset.describe()) #this give statistical summary of numerica columns(mean,min max)
 
-#Starting on preprocessing
-print(dataset.isnull().sum())
-
-print(dataset.dtypes)
-
-#filling missing valuses
+# 2. Handling Missing Values
 dataset["age"] = dataset["age"].fillna(dataset["age"].mean())
 dataset["embarked"] = dataset["embarked"].fillna(dataset["embarked"].mode()[0])
 
-#dropping deck column because it has 77% of data missing
-dataset.drop(columns=["deck"],inplace=True)
-dataset.drop(columns=["embark_town"],inplace=True)
-print(dataset.isnull().sum())
+# Dropping unnecessary/messy columns
+dataset.drop(columns=["deck", "embark_town", "alive", "class", "who", "adult_male"], inplace=True)
 
-
-#label and one hot encoding
+# 3. Label & One-Hot Encoding
 label_encoder = LabelEncoder()
 dataset["sex"] = label_encoder.fit_transform(dataset["sex"])
-print(dataset.head(10))
+dataset = pd.get_dummies(dataset, columns=["embarked"], dtype=int)
 
-dataset = pd.get_dummies(dataset,columns=["embarked"],dtype=int)
-print(dataset.head(10))
-
-#Stared feature scalling using standardization as it has outliers
-scaler = StandardScaler()
-
-cols = ["age","fare","sibsp", "parch"]
-dataset[cols] = scaler.fit_transform(dataset[cols])
-print(dataset.head(10))
-print(dataset.describe())
-
-#Starting outlier detection using iqr method to catch more outliers, while z score catch extreme outliers
+# 4. Outlier Handling (DO THIS BEFORE SCALING)
+# Calculating IQR for 'fare'
 q1 = dataset["fare"].quantile(0.25)
 q3 = dataset["fare"].quantile(0.75)
-dq = q3-q1
+iqr = q3 - q1
 
-lower_boundary = q1-1.5*dq
-upper_boundary = q3+1.5*dq
+lower_boundary = q1 - 1.5 * iqr
+upper_boundary = q3 + 1.5 * iqr
 
-print("q1:", q1)
-print("q3:", q3)
-print("IQR:", dq)
-print("Lower Boundary:", lower_boundary)
-print("Upper Boundary:", upper_boundary)
-
-
-outliers = dataset[(dataset["fare"]<lower_boundary) | (dataset["fare"]>upper_boundary)]
-print("Number of outliers:", len(outliers))
-
-#we have two choices for outliers remove it if not real and have no effect or capping in which we replace outliers with bounderis,using clip()-> anything below lower boundary become value of  lower boundary and same for upper values
-#capping outliers
+# Capping outliers using the calculated boundaries
 dataset["fare"] = dataset["fare"].clip(lower=lower_boundary, upper=upper_boundary)
-outliers_after = dataset[(dataset["fare"]<lower_boundary) | (dataset["fare"]>upper_boundary)]
-print("Number of outliers after clipping:", len(outliers_after))
 
+# 5. Feature Scaling
+scaler = StandardScaler()
+cols_to_scale = ["age", "fare", "sibsp", "parch"]
+dataset[cols_to_scale] = scaler.fit_transform(dataset[cols_to_scale])
 
-#Feature Selection
+# 6. Removing Duplicates (Fixed typo and added inplace)
+dataset.drop_duplicates(inplace=True)
+
+# 7. Final Check
+print("Final Shape:", dataset.shape)
+print(dataset.head())
+
+# Feature Selection (Correlation)
 correlation = dataset.corr(numeric_only=True)
-print(correlation)
-
-#removing adult_male column because it has 90% same to sex
-dataset.drop(columns=["adult_male"], inplace=True)
+print("\nCorrelation with Survived:")
+print(correlation["survived"].sort_values(ascending=False))
