@@ -1,10 +1,12 @@
 # Starting Preprocessing part 2,most of work I have did in part 1 byself
-#Also I used Standard scaler which is standardization while madam used Normalization minmaxscaler. I have also impemented that par but commented
+#I used Standard scaler which is standardization while madam used Normalization minmaxscaler. I have also impemented that part but commented
 
 
 import pandas as pd
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
+from scipy.stats import zscore
+import numpy as np
 
 # 1. Load Data
 dataset = sns.load_dataset("titanic")
@@ -55,6 +57,13 @@ print("Number of outliers detected:", len(outliers))
 dataset["fare"] = dataset["fare"].clip(lower=lower_boundary, upper=upper_boundary)
 outliers_after = dataset[(dataset["fare"] < lower_boundary) | (dataset["fare"] > upper_boundary)]
 print("Number of outliers after clipping:", len(outliers_after))
+
+
+#zscore is also implemented but in this case zscore is not good because it will move mean upward of fare
+# z_scores = np.abs(zscore(dataset[["fare"]]))
+# outliers = (z_scores>3).any(axis=1)
+# rm_outliers = dataset[~outliers]
+
 
 # 5. Feature Scaling
 # Using standardization since it is robust for models like Logistic Regression
