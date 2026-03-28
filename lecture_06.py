@@ -1,7 +1,7 @@
 #linear regression
 #I have also implemented  some other things not being covered in that lecture like evaluation,feature scalling
 #the results before feature scalling was average lets scale it and see it then what will happen
-#did all for linear regression but the dataset I have used is complex so inear regression is unable to capture the patterns
+#did all for linear regression but the dataset I have used is complex so inear regression is unable to capture the patterns,np effect of feature scalling
 
 import pandas as pd
 import numpy as np
