@@ -24,6 +24,15 @@ color_palate1 = sns.color_palette("Reds")
 sns.palplot(color_palate1)
 plt.show()
 
-#for clor blinds
+#for color blinds
 sns.palplot(sns.color_palette("colorblind"))
+plt.show()
+
+
+#Using matplotlib
+plt.figure(figsize=(10,6))
+sns.countplot(x='pclass',hue='survived',data=dataset)
+plt.xlabel('Pclass')
+plt.ylabel('Survived')
+plt.legend(labels = ['Did not survive', 'Survived'])
 plt.show()
