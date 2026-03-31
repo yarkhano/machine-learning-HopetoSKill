@@ -47,7 +47,7 @@ plt.show()
 
 #Using kde=True to show curve for average value.
 plt.figure(figsize=(10,6))
-sns.countplot(x='age',hue='survived',data=dataset)
+sns.histplot(data=dataset,x='age',kde=True)
 plt.title('Survived w.r.t Sex')
 plt.xlabel('Age')
 plt.ylabel('count')
