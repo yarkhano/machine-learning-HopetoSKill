@@ -54,3 +54,9 @@ plt.ylabel('count')
 plt.axvline(dataset["age"].mean(), color='red', linestyle='--',label='Mean Age' )
 plt.legend()
 plt.show()
+
+#Facet Grid
+g = sns.FacetGrid(dataset,col='survived',row='pclass')
+g.map(plt.hist,'age')
+g.add_legend()
+plt.show()
