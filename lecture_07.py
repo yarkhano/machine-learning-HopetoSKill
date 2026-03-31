@@ -44,3 +44,13 @@ plt.xlabel('sex')
 plt.ylabel('count')
 plt.legend(labels=['Did Not Survive','Survived'])
 plt.show()
+
+#Using kde=True to show curve for average value.
+plt.figure(figsize=(10,6))
+sns.countplot(x='age',hue='survived',data=dataset)
+plt.title('Survived w.r.t Sex')
+plt.xlabel('Age')
+plt.ylabel('count')
+plt.axvline(dataset["age"].mean(), color='red', linestyle='--',label='Mean Age' )
+plt.legend()
+plt.show()
