@@ -60,3 +60,5 @@ g = sns.FacetGrid(dataset,col='survived',row='pclass')
 g.map(plt.hist,'age')
 g.add_legend()
 plt.show()
+
+#Starting plotly.express
