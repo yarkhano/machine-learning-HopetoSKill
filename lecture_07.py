@@ -86,7 +86,7 @@ fig5 = px.histogram(
     nbins=30,
     title="Survival Histograms: Age vs Class & Sex",
     labels={'survived': 'Survived (1=Yes)'},
-    color_discrete_map={0: "red", 1: "green"} # Red for death, Green for survival
+    color_discrete_map={0: "red", 1: "green"}
 )
 
 fig5.show()
