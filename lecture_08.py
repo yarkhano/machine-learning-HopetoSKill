@@ -4,7 +4,9 @@
 import pandas as pd
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix,accuracy_score,classification_report
 
 # 1. Load Data
 dataset = sns.load_dataset("titanic")
@@ -94,3 +96,32 @@ print("\nCorrelation Matrix:\n", correlation)
 dataset.drop(columns=["adult_male"], inplace=True)
 
 print("\nFinal Preprocessing Complete. Final Shape:", dataset.shape)
+
+scaler = StandardScaler()
+
+# FIX: Pandas DataFrames do not use .data and .target.
+# We explicitly drop the target column and leftover string columns that crash the model.
+X = dataset.drop(columns=["survived", "alive", "class", "who"])
+y = dataset["survived"]
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=42)
+
+x_train_scaled = scaler.fit_transform(X_train)
+x_test_scaled = scaler.transform(X_test)
+
+
+#Logistic Regression
+lr = LogisticRegression()
+
+# FIX: Passed x_train_scaled instead of X_train
+lr.fit(x_train_scaled,y_train)
+y_pred = lr.predict(x_test_scaled)
+
+acc = accuracy_score(y_test, y_pred)
+print("Accuracy:", acc)
+
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:", cm)
+
+classificationReport = classification_report(y_test, y_pred)
+print("Classification Report:", classificationReport)
